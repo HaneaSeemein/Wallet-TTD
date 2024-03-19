@@ -21,7 +21,7 @@ func TestNewWalletWithNegativeBalance(t *testing.T){
 	}
 }
 
-func TestCredit(t *testing.T){
+func TestCreditAmount(t *testing.T){
 	mywallet := newWallet(10.0, Rupee)
 	got := mywallet.Credit(2.0)
 	want := 12.0
@@ -41,7 +41,7 @@ func TestCreditNegativeAmount(t *testing.T){
 	}	
 }
 
-func TestDebit(t *testing.T){
+func TestDebitAmount(t *testing.T){
 	mywallet := newWallet(10.0, Rupee)
 	got := mywallet.Debit(2.0)
 	want := 8.0
@@ -83,7 +83,7 @@ func TestCheckBalance(t *testing.T){
 }
 
 func TestCheckBalanceIn(t *testing.T){
-	mywallet := newWallet(10.0, 	Dollar)
+	mywallet := newWallet(10.0, Dollar)
 	_= mywallet.Debit(3.0)
 
 	got := mywallet.CheckBalanceIn(Rupee)

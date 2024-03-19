@@ -6,7 +6,7 @@ type Wallet struct{
 }
 
 func newWallet(amount float64, c Currency) *Wallet{
-	if amount>0.0{
+	if amount>=0.0{
 		return &Wallet{
 			balance: amount,
 			nativeCurrency: c, 
