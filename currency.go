@@ -1,12 +1,12 @@
 package Wallet
 
 type Currency struct{
-	valueInINR float
+	valueInINR float64
 }
 
-func ConvertCurrency(from, to Currency) float {
-	return from.valueInINR/to.valueInINR
-}
+var Rupee Currency = Currency{valueInINR: 1.0}
+var Dollar Currency = Currency{valueInINR: 82.47}
 
-Rupee := Currency{valueInINR: 1}
-Dollar := Currency{valueInINR: 82.47}
+func ConvertCurrency(from, to Currency) float64 {
+  return from.valueInINR/to.valueInINR
+}

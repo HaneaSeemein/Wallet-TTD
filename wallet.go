@@ -1,26 +1,21 @@
 package Wallet
 
 type Wallet struct{
-	var balance float
+	balance float64
 	nativeCurrency Currency
 }
 
-func newWallet[T any](amt T, c Currency) *Wallet{
-	amount:=float(amt)
-	if amount<0{
-		return nil
+func newWallet(amount float64, c Currency) *Wallet{
+	if c!=nil && amount>0.0{
+		return &Wallet{
+			balance: amount,
+			nativeCurrency: c, 
+		}
 	}
-	if !c{
-		return nil
-	}
-	return &Wallet{
-		balance: amount,
-		nativeCurrency: c, 
-	}
+	return nil
 }
 
-func (w Wallet) Credit[T any](amt T) float {
-	amount:=float(amt)
+func (w Wallet) Credit(amount float64) float64 {
 	if amount<=0{
 		return w.balance
 	}
@@ -28,8 +23,7 @@ func (w Wallet) Credit[T any](amt T) float {
 	return w.balance
 }
 
-func (w Wallet) CreditIn[T any](c Currency, amt T) float {
-	amount:=float(amt)
+func (w Wallet) CreditIn(c Currency, amount float64) float64 {
 	if amount<=0{
 		return w.balance*ConvertCurrency(w.nativeCurrency,c)
 	}
@@ -37,8 +31,7 @@ func (w Wallet) CreditIn[T any](c Currency, amt T) float {
 	return w.balance*ConvertCurrency(w.nativeCurrency,c)
 }
 
-func (w Wallet) Debit[T any](amt T) float {
-	amount:=float(amt)
+func (w Wallet) Debit(amount float64) float64 {
 	if amount<=0 || amount<w.balance{
 		return -1
 	}
@@ -46,8 +39,7 @@ func (w Wallet) Debit[T any](amt T) float {
 	return w.balance
 }
 
-func (w Wallet) DebitIn[T any](c Currency, amt T) float {
-	amount:=float(amt)
+func (w Wallet) DebitIn(c Currency, amount float64) float64 {
 	amt := amount*ConvertCurrency(c,w.nativeCurrency)
 	if amt<=0 || amt<w.balance{
 		return -1
@@ -56,10 +48,10 @@ func (w Wallet) DebitIn[T any](c Currency, amt T) float {
 	return w.balance*ConvertCurrency(w.nativeCurrency,c)
 }
 
-func (w Wallet) CheckBalance() float {
+func (w Wallet) CheckBalance() float64 {
 	return w.balance
 }
 
-func (w Wallet) CheckBalanceIn(c Currency) float {
+func (w Wallet) CheckBalanceIn(c Currency) float64 {
 	return w.balance*ConvertCurrency(w.nativeCurrency,c)
 }
