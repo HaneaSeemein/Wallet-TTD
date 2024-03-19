@@ -1,2 +1,3 @@
 As a wallet owner, I should be able to get the value of 1 Dollar in rupees ie 82.47 rupees.
 As a wallet owner, I would like to be able to put money into my wallet so that i can take it out later.
+As a wallet owner, I would like to be able to take a specified amount of money out of my wallet
