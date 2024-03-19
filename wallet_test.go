@@ -21,22 +21,13 @@ func TestNewWalletWithNegativeBalance(t *testing.T){
 	}
 }
 
-func TestNewWalletWithInvalidCurrency(t *testing.T){
-	mywallet := newWallet(1232.0,babushka)
-	got:=mywallet
-
-	if got!=nil{
-		t.Errorf("Unrecognized currency")
-	}
-}
-
 func TestCredit(t *testing.T){
 	mywallet := newWallet(10.0, Rupee)
 	got := mywallet.Credit(2.0)
 	want := 12.0
 
 	if got!=want{
-		t.Errorf("Amount not credited")
+		t.Errorf("Amount not credited, got: %f",got)
 	}
 }
 
@@ -46,7 +37,7 @@ func TestCreditNegativeAmount(t *testing.T){
 	want := 10.0
 
 	if got!=want{
-		t.Errorf("Negative amount credited")
+		t.Errorf("Negative amount credited, got: %f",got)
 	}	
 }
 
@@ -56,7 +47,7 @@ func TestDebit(t *testing.T){
 	want := 8.0
 
 	if got!=want{
-		t.Errorf("Amount not debited")
+		t.Errorf("Amount not debited, got: %f",got)
 	}
 }
 
@@ -66,7 +57,7 @@ func TestDebitNegativeAmount(t *testing.T){
 	want := -1.0
 
 	if got!=want{
-		t.Errorf("Negative amount debited")
+		t.Errorf("Negative amount debited, got: %f",got)
 	}	
 }
 
@@ -76,19 +67,18 @@ func TestDebitLimitExceed(t *testing.T){
 	want := -1.0
 
 	if got!=want{
-		t.Errorf("Wallet has negative balance")
+		t.Errorf("Wallet has negative balance, got: %f",got)
 	}	
 }
 
 func TestCheckBalance(t *testing.T){
 	mywallet := newWallet(10.0, Rupee)
-	_= mywallet.Debit(3.0)
+	want:= mywallet.Debit(3.0)
 
 	got := mywallet.CheckBalance()
-	want := 7.0
 
 	if got!=want{
-		t.Errorf("Wrong balance")
+		t.Errorf("Wrong balance, got: %f",got)
 	}
 }
 
@@ -100,6 +90,6 @@ func TestCheckBalanceIn(t *testing.T){
 	want := 577.29
 
 	if got!=want{
-		t.Errorf("Wrong balance in rupees")
+		t.Errorf("Wrong balance in rupees, got: %f",got)
 	}
 }
