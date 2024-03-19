@@ -4,38 +4,73 @@ type Currency struct{
 	valueInINR float
 }
 
-// rupeecoin := Currency{valueInINR: 1}
-// dollarcoin := Currency{valueInINR: 82.47}
-
-func createCurrency(value float) Currrency{
-	return Currency{valueInINR: value}
-}
-
-func initialiseCurrencies(){
-	const rupeecoin := createCurrency(1)
-	const dollarcoin := createCurrency(82.47)
-}
-
-type Wallet struct{
-	var balanceInINR float
-}
-
-func newWallet(amount float){
-	return Wallet{balanceInINR: amount}
-}
-
 func ConvertCurrency(from, to Currency) float {
 	return from.valueInINR/to.valueInINR
 }
 
-func Credit(c Currency, amount float){
+Rupee := Currency{valueInINR: 1}
+Dollar := Currency{valueInINR: 82.47}
 
+type Wallet struct{
+	var balance float
+	nativeCurrency Currency
 }
 
-func RupeeToDollar(amount float){
-	return amount*ConvertCurrency(rupeecoin, dollarcoin)
+func newWallet[T any](amt T, c Currency) *Wallet{
+	amount:=float(amt)
+	if amount<0{
+		return nil
+	}
+	if !c{
+		return nil
+	}
+	return &Wallet{
+		balance: amount,
+		nativeCurrency: c, 
+	}
 }
 
-func DollarToRupee(amount float){
-	return amount*ConvertCurrency(rupeecoin, dollarcoin)
+func (w Wallet) Credit[T any](amt T) float {
+	amount:=float(amt)
+	if amount<=0{
+		return w.balance
+	}
+	w.balance = w.balance+amount
+	return w.balance
+}
+
+func (w Wallet) CreditIn[T any](c Currency, amt T) float {
+	amount:=float(amt)
+	if amount<=0{
+		return w.balance*ConvertCurrency(w.nativeCurrency,c)
+	}
+	w.balance = w.balance+(amount*ConvertCurrency(c,w.nativeCurrency))
+	return w.balance*ConvertCurrency(w.nativeCurrency,c)
+}
+
+func (w Wallet) Debit[T any](amt T) float {
+	amount:=float(amt)
+	if amount<=0 || amount<w.balance{
+		return -1
+	}
+	w.balance = w.balance-amount
+	return w.balance
+}
+
+func (w Wallet) DebitIn[T any](c Currency, amt T) float {
+	amount:=float(amt)
+	amt := amount*ConvertCurrency(c,w.nativeCurrency)
+	if amt<=0 || amt<w.balance{
+		return -1
+	}
+	w.balance = w.balance-amt
+	return w.balance*ConvertCurrency(w.nativeCurrency,c)
+}
+
+func (w Wallet) CheckBalance() float {
+	return w.balance
+}
+
+func (w Wallet) CheckBalanceIn(c Currency) float {
+	return w.balance*ConvertCurrency(w.nativeCurrency,c)
 }

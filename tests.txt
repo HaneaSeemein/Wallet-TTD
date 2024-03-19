@@ -1,2 +1,6 @@
 R1
 correct conversion for 1 rupee
+
+R2
+create new wallet
+debit only when balance positive
