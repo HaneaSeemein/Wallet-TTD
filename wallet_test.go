@@ -128,3 +128,20 @@ func TestVariousCurrenciesCreditAmountIn(t *testing.T){
 		t.Errorf("Amount not credited, got: %f",got)
 	}
 }
+
+func TestLogs(t *testing.T){
+	want := []string{
+		"Wallet created with $ 2.000000",
+		"Credited: € 3.0",
+		"Credited: ₹ 164.94",
+	}
+	mywallet := newWallet(Dollar, 2.0)
+	_= mywallet.CreditIn(Euro, 3.0)
+	_= mywallet.CreditIn(Rupee, 164.94)
+	got:=mywallet.ShowHistory()
+	for i:=0; i<len(got); i++{
+		if got[i]!=want[i]{
+			t.Errorf("Wrong log: %s", got[i])
+		}
+	}
+}
