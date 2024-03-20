@@ -6,7 +6,7 @@ type Currency struct{
 
 var Rupee Currency = Currency{valueInINR: 1.0}
 var Dollar Currency = Currency{valueInINR: 82.47}
-var Euro Currency = Currency{valueInINR: 40}
+var Euro Currency = Currency{valueInINR: 100}
 
 func ConvertCurrency(from, to Currency) float64 {
   return from.valueInINR/to.valueInINR

@@ -42,19 +42,6 @@ func TestCreditAmountIn(t *testing.T){
 	}
 }
 
-func TestMultipleCreditAmountIn(t *testing.T){
-	mywallet := newWallet(Rupee, 82.47)
-	_= mywallet.CreditIn(Dollar, 1.0)
-	_= mywallet.CreditIn(Rupee, 164.94)
-	got:=mywallet.CheckBalanceIn(Dollar)
-	want := 4.0
-
-	if got!=want{
-		t.Errorf("Amount not credited, got: %f",got)
-	}
-}
-
-
 func TestCreditNegativeAmount(t *testing.T){
 	mywallet := newWallet(Rupee,10.0)
 	got := mywallet.Credit(-4.0)
@@ -115,5 +102,29 @@ func TestCheckBalanceIn(t *testing.T){
 
 	if got!=want{
 		t.Errorf("Wrong balance in rupees, got: %f",got)
+	}
+}
+
+func TestMultipleCreditAmountIn(t *testing.T){
+	mywallet := newWallet(Rupee, 82.47)
+	_= mywallet.CreditIn(Dollar, 1.0)
+	_= mywallet.CreditIn(Rupee, 164.94)
+	got:=mywallet.CheckBalanceIn(Dollar)
+	want := 4.0
+
+	if got!=want{
+		t.Errorf("Amount not credited, got: %f",got)
+	}
+}
+
+func TestVariousCurrenciesCreditAmountIn(t *testing.T){
+	mywallet := newWallet(Dollar, 2.0)
+	_= mywallet.CreditIn(Euro, 3.0)
+	_= mywallet.CreditIn(Rupee, 164.94)
+	got:=mywallet.CheckBalanceIn(Rupee)
+	want := 629.88
+
+	if got!=want{
+		t.Errorf("Amount not credited, got: %f",got)
 	}
 }
