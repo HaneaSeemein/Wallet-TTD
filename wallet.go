@@ -5,7 +5,7 @@ type Wallet struct{
 	nativeCurrency Currency
 }
 
-func newWallet(amount float64, c Currency) *Wallet{
+func newWallet(c Currency, amount float64) *Wallet{
 	if amount>=0.0{
 		return &Wallet{
 			balance: amount,

@@ -3,7 +3,7 @@ package Wallet
 import 	"testing"
 
 func TestNewWallet(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	got := mywallet.balance
 	want := float64(10)
 
@@ -13,7 +13,7 @@ func TestNewWallet(t *testing.T){
 }
 
 func TestNewWalletWithNegativeBalance(t *testing.T){
-	mywallet := newWallet(-2.0,Rupee)
+	mywallet := newWallet(Rupee, -2.0)
 	got:=mywallet
 
 	if got!=nil{
@@ -22,7 +22,7 @@ func TestNewWalletWithNegativeBalance(t *testing.T){
 }
 
 func TestCreditAmount(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	got := mywallet.Credit(2.0)
 	want := 12.0
 
@@ -31,8 +31,32 @@ func TestCreditAmount(t *testing.T){
 	}
 }
 
+func TestCreditAmountIn(t *testing.T){
+	mywallet := newWallet(Rupee, 50.0)
+	_= mywallet.CreditIn(Dollar, 1.0)
+	got:=mywallet.CheckBalance()
+	want := 132.47
+
+	if got!=want{
+		t.Errorf("Amount not credited, got: %f",got)
+	}
+}
+
+func TestMultipleCreditAmountIn(t *testing.T){
+	mywallet := newWallet(Rupee, 82.47)
+	_= mywallet.CreditIn(Dollar, 1.0)
+	_= mywallet.CreditIn(Rupee, 164.94)
+	got:=mywallet.CheckBalanceIn(Dollar)
+	want := 4.0
+
+	if got!=want{
+		t.Errorf("Amount not credited, got: %f",got)
+	}
+}
+
+
 func TestCreditNegativeAmount(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee,10.0)
 	got := mywallet.Credit(-4.0)
 	want := 10.0
 
@@ -42,7 +66,7 @@ func TestCreditNegativeAmount(t *testing.T){
 }
 
 func TestDebitAmount(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	got := mywallet.Debit(2.0)
 	want := 8.0
 
@@ -52,7 +76,7 @@ func TestDebitAmount(t *testing.T){
 }
 
 func TestDebitNegativeAmount(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	got := mywallet.Debit(-4.0)
 	want := -1.0
 
@@ -62,7 +86,7 @@ func TestDebitNegativeAmount(t *testing.T){
 }
 
 func TestDebitLimitExceed(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	got := mywallet.Debit(12.0)
 	want := -1.0
 
@@ -72,7 +96,7 @@ func TestDebitLimitExceed(t *testing.T){
 }
 
 func TestCheckBalance(t *testing.T){
-	mywallet := newWallet(10.0, Rupee)
+	mywallet := newWallet(Rupee, 10.0)
 	want:= mywallet.Debit(3.0)
 
 	got := mywallet.CheckBalance()
@@ -83,7 +107,7 @@ func TestCheckBalance(t *testing.T){
 }
 
 func TestCheckBalanceIn(t *testing.T){
-	mywallet := newWallet(10.0, Dollar)
+	mywallet := newWallet(Dollar, 10.0)
 	_= mywallet.Debit(3.0)
 
 	got := mywallet.CheckBalanceIn(Rupee)
