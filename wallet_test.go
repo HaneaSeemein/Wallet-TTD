@@ -1,7 +1,9 @@
 package Wallet
 
-import "testing"
-
+import (
+	"testing"
+	"github.com/stretchr/testify"
+)
 func TestNewWallet(t *testing.T){
 	mywallet := newWallet(10.0, Rupee)
 	got := mywallet.balance
