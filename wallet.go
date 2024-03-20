@@ -45,10 +45,10 @@ func (w *Wallet) Debit(amount float64) float64 {
 func (w *Wallet) DebitIn(c Currency, amount float64) float64 {
 	amt := amount*ConvertCurrency(c,w.nativeCurrency)
 	if amt<=0{
-		return -1
+		return -1.0
 	}	
 	if amt>w.balance{
-		return -1
+		return -1.0
 	}
 	w.balance = w.balance-amt
 	return w.balance*ConvertCurrency(w.nativeCurrency,c)
